@@ -1,0 +1,9 @@
+{
+  "name": "Thunder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^2.4.0"
+  }
+}
