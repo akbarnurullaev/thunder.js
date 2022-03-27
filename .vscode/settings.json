@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        ".parcel-cache": true,
+        "node_modules": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "yarn.lock": true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        ".idea": true,
+        "dist": true,
+    }
+}
