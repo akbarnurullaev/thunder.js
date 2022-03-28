@@ -1,5 +1,6 @@
 {
     "files.exclude": {
+        "package-lock.json": true,
         ".parcel-cache": true,
         "node_modules": true,
         "**/.DS_Store": true,
@@ -10,6 +11,6 @@
         "**/.hg": true,
         "**/CVS": true,
         ".idea": true,
-        "dist": true,
+        "dist": true
     }
 }

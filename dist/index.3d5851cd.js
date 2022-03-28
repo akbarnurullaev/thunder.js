@@ -516,49 +516,52 @@ function hmrAcceptRun(bundle, id) {
 },{}],"klx28":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Thunder", ()=>Thunder
+);
+parcelHelpers.export(exports, "ThunderDOM", ()=>ThunderDOM
+);
+const ThunderKeyWords = {
+    event: "on:"
+};
 class Thunder {
+    __TEMPLATE_CACHE__ = null;
+    __EVENTS__ = null;
+    __PROPS__ = null;
     constructor({ tag , attributes  }){
         this.element = document.createElement(tag);
-        if (attributes) for (const [key, value] of Object.entries(attributes))this.element.setAttribute(key, value);
+        /* Adding attributes to parent element */ if (attributes) for (const [key, value] of Object.entries(attributes))this.element.setAttribute(key, value);
     }
-    __bind_events() {
-        const children = this.element.children;
-        if (children) for(let i = 0; i < children.length; i++){
-            const target = children[i], events = target.getAttributeNames().filter((event)=>event.startsWith("event")
-            );
-            if (events.length) for (let event1 of events){
-                target.removeAttribute(event1);
-                target.addEventListener("click", ()=>{
-                    console.log("19");
-                });
-            }
-        }
+    storeEvents(eventsObject) {
+        this.__EVENTS__ = eventsObject;
+        return this;
     }
     props(propsObject) {
-        this._PROPS_ = propsObject;
-        const { literals , values  } = this._TEMPLATE_CACHE_;
-        this.template(literals, ...values);
-        this.__bind_events();
-        return this.element.outerHTML;
+        /* Initializing Properties */ this.__PROPS__ = propsObject;
+        const { literals , values  } = this.__TEMPLATE_CACHE__;
+        /* Calling Template function to re-render */ this.template(literals, ...values);
+        /* Returning the whole HTML Element as a string */ return this.element.outerHTML;
     }
     template(literals, ...values) {
         let result = "";
-        if (!this._TEMPLATE_CACHE_) this._TEMPLATE_CACHE_ = {
+        if (!this.__TEMPLATE_CACHE__) this.__TEMPLATE_CACHE__ = {
             literals,
             values
         };
-        for(let i = 0; i < this._TEMPLATE_CACHE_.literals.length; i++){
-            if (i > 0) {
-                const target = this._TEMPLATE_CACHE_.values[i - 1];
-                if (typeof target === "function") {
-                    if (this._PROPS_) result += target(this._PROPS_);
-                } else result += target;
+        const { literals: TCacheLiterals , values: TCacheValues  } = this.__TEMPLATE_CACHE__;
+        for(let i = 0; i < TCacheLiterals.length; i++){
+            /* Check for initial state */ if (i > 0) {
+                const target = TCacheValues[i - 1];
+                /* Check passed value if that's function */ if (typeof target === "function") result += target({
+                    events: this.__EVENTS__ ?? null,
+                    props: this.__PROPS__ ?? null
+                });
+                else result += target;
             }
-            result += this._TEMPLATE_CACHE_.literals[i];
+            /* Adding current literal */ result += TCacheLiterals[i];
         }
-        this._TEMPLATE_ = result;
-        this.element.innerHTML = this._TEMPLATE_;
-        this.__bind_events();
+        /* Adding template into cache */ this.__TEMPLATE_CACHE__.template = result.trim().replace(/(\r\n|\n|\r)/gm, '');
+        const { template: TCacheTemplate  } = this.__TEMPLATE_CACHE__;
+        this.element.innerHTML = TCacheTemplate;
         return this;
     }
     style(CSSObject) {
@@ -568,8 +571,43 @@ class Thunder {
     render(to) {
         document.querySelector(to).appendChild(this.element);
     }
+    get __html__() {
+        return this.element.outerHTML;
+    }
 }
-exports.default = Thunder;
+class ThunderDOM {
+    __ROOT_SELECTOR__ = null;
+    __ROOT_ELEMENT__ = null;
+    constructor({ root  }){
+        this.__ROOT_SELECTOR__ = root;
+        this.__ROOT_ELEMENT__ = document.querySelector(this.__ROOT_SELECTOR__);
+    }
+     #bindEvents() {
+        for (const element of this.__ROOT_ELEMENT__.getElementsByTagName("*")){
+            let events = element.getAttributeNames().filter((attr)=>attr.startsWith(ThunderKeyWords.event)
+            );
+            events = events.map((event)=>({
+                    body: element.getAttribute(event),
+                    name: event
+                })
+            );
+            if (events.length > 0) events.forEach(({ name , body  })=>{
+                element.addEventListener(name.replace(ThunderKeyWords.event, ""), (e)=>{
+                    new Function(`return ${body}`)()(e);
+                });
+            });
+        }
+    }
+     #removeThunderAttributes() {
+        for (const element of this.__ROOT_ELEMENT__.getElementsByTagName("*"))element.removeAttribute("on:click");
+    }
+    render(ThunderNode) {
+        /* Get HTML of Thunder Instance */ const NodeHTML = ThunderNode.__html__;
+        document.querySelector(this.__ROOT_SELECTOR__).innerHTML = NodeHTML;
+        this.#bindEvents();
+        this.#removeThunderAttributes();
+    }
+}
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {

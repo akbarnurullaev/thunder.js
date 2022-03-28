@@ -1,9 +1,18 @@
 {
-  "name": "Thunder",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "parcel": "^2.4.0"
-  }
+    "name": "thunder-js",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "eslint": "^8.12.0",
+        "parcel": "^2.4.0",
+        "prettier": "^2.6.1"
+    },
+    "scripts": {
+        "dev": "yarn parcel src/index.html"
+    },
+    "dependencies": {
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0"
+    }
 }

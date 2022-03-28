@@ -514,43 +514,8 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"fyiI3":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _thunder = require("./Thunder");
-var _thunderDefault = parcelHelpers.interopDefault(_thunder);
-const Button = new _thunderDefault.default({
-    tag: "button"
-}).template`<div event-onclick="${(props)=>props.onClick
-}">${(props)=>props.label
-}</div>`;
-const Square = new _thunderDefault.default({
-    tag: "button"
-}).style({
-    width: "100px",
-    height: "100px",
-    backgroundColor: "red"
-}).template`<div event-onmouseover="${(props)=>props.onmouseover
-}">1</div>`;
-// Entry Point
-new _thunderDefault.default({
-    tag: "main"
-}).style({
-    fontFamily: "sans-serif"
-}).template`
-        <h1>Application</h1>
-        ${Button.props({
-    label: "Click Me",
-    onClick () {
-        alert(100);
-    }
-})}
-        
-        ${Square.props({
-    onmouseover () {
-        alert(100);
-    }
-})}
-    `.render("#root");
 
-},{"./Thunder":"klx28","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["h9kGS","fyiI3"], "fyiI3", "parcelRequireb197")
+},{"./Thunder":"klx28"}]},["h9kGS","fyiI3"], "fyiI3", "parcelRequireb197")
 
 //# sourceMappingURL=index.5e8bc736.js.map
